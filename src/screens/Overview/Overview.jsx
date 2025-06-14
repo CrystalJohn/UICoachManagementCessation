@@ -273,3 +273,4 @@ export const Overview = () => {
     </>
   );
 };
+export default Overview;

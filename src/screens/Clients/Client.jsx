@@ -19,6 +19,7 @@ import {
   MailOutlined,
   CalendarOutlined,
 } from "@ant-design/icons";
+import styles from './Client.module.css';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -110,26 +111,26 @@ export const Clients = () => {
 
   return (
     <>
-      <Title level={2} style={{ marginBottom: 24 }}>
+      <Title level={2} className={styles.pageTitle}>
         Client Management
       </Title>
 
       {/* Search and Filter */}
-      <Row gutter={16} style={{ marginBottom: 24 }}>
+      <Row gutter={16} className={styles.searchFilterRow}>
         <Col span={12}>
           <Input
             placeholder="Search by name or email"
             prefix={<SearchOutlined />}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            style={{ borderRadius: 8 }}
+            className={styles.searchInput}
           />
         </Col>
         <Col span={6}>
           <Select
             value={filterStatus}
             onChange={setFilterStatus}
-            style={{ width: "100%", borderRadius: 8 }}
+            className={styles.filterSelect}
           >
             <Option value="all">All clients</Option>
             <Option value="premium">Premium</Option>
@@ -142,15 +143,9 @@ export const Clients = () => {
       <Row gutter={[24, 24]}>
         {filteredClients.map((client) => (
           <Col key={client.id} span={12}>
-            <Card
-              style={{ 
-                borderRadius: 16,
-                boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-              }}
-              bodyStyle={{ padding: 24 }}
-            >
+            <Card className={styles.clientCard}>
               {/* Client Header */}
-              <div style={{ marginBottom: 20 }}>
+              <div className={styles.clientHeader}>
                 <Row justify="space-between" align="top">
                   <Col>
                     <Space size={16}>
@@ -158,19 +153,19 @@ export const Clients = () => {
                         {client.name.split(" ").map(n => n[0]).join("")}
                       </Avatar>
                       <div>
-                        <Title level={4} style={{ margin: 0, marginBottom: 4 }}>
+                        <Title level={4} className={styles.clientName}>
                           {client.name}
                         </Title>
                         <Space direction="vertical" size={2}>
                           <Space size={8}>
-                            <MailOutlined style={{ color: "#666", fontSize: 12 }} />
-                            <Text type="secondary" style={{ fontSize: 12 }}>
+                            <MailOutlined className={styles.icon} />
+                            <Text type="secondary" className={styles.clientDetail}>
                               {client.email}
                             </Text>
                           </Space>
                           <Space size={8}>
-                            <CalendarOutlined style={{ color: "#666", fontSize: 12 }} />
-                            <Text type="secondary" style={{ fontSize: 12 }}>
+                            <CalendarOutlined className={styles.icon} />
+                            <Text type="secondary" className={styles.clientDetail}>
                               Joined {client.joinDate}
                             </Text>
                           </Space>
@@ -187,7 +182,7 @@ export const Clients = () => {
                         <Button 
                           type="primary" 
                           size="small"
-                          style={{ borderRadius: 6 }}
+                          className={styles.actionButton}
                         >
                           View Details
                         </Button>
@@ -195,7 +190,7 @@ export const Clients = () => {
                           type="default" 
                           size="small" 
                           icon={<MessageOutlined />}
-                          style={{ borderRadius: 6 }}
+                          className={styles.actionButton}
                         />
                       </Space>
                     </Space>
@@ -204,58 +199,38 @@ export const Clients = () => {
               </div>
 
               {/* Progress Overview */}
-              <div style={{ 
-                backgroundColor: "#fafafa", 
-                borderRadius: 12, 
-                padding: 16,
-                marginBottom: 16 
-              }}>
-                <Title level={5} style={{ margin: 0, marginBottom: 16 }}>
+              <div className={styles.progressOverview}>
+                <Title level={5} className={styles.sectionTitle}>
                   Progress Overview
                 </Title>
                 
                 <Row gutter={24}>
                   <Col span={8}>
-                    <div style={{ textAlign: "center" }}>
-                      <Text type="secondary" style={{ fontSize: 12 }}>
+                    <div className={styles.statBox}>
+                      <Text type="secondary" className={styles.statLabel}>
                         Smoke-Free Days
                       </Text>
-                      <div style={{ 
-                        fontSize: 24, 
-                        fontWeight: "bold", 
-                        color: "#722ed1",
-                        marginTop: 4 
-                      }}>
+                      <div className={styles.smokeFreeValue}>
                         {client.smokeFreedays}
                       </div>
                     </div>
                   </Col>
                   <Col span={8}>
-                    <div style={{ textAlign: "center" }}>
-                      <Text type="secondary" style={{ fontSize: 12 }}>
+                    <div className={styles.statBox}>
+                      <Text type="secondary" className={styles.statLabel}>
                         Cigarettes Avoided
                       </Text>
-                      <div style={{ 
-                        fontSize: 24, 
-                        fontWeight: "bold", 
-                        color: "#0d9488",
-                        marginTop: 4 
-                      }}>
+                      <div className={styles.cigarettesValue}>
                         {client.cigarettesAvoided}
                       </div>
                     </div>
                   </Col>
                   <Col span={8}>
-                    <div style={{ textAlign: "center" }}>
-                      <Text type="secondary" style={{ fontSize: 12 }}>
+                    <div className={styles.statBox}>
+                      <Text type="secondary" className={styles.statLabel}>
                         Money Saved
                       </Text>
-                      <div style={{ 
-                        fontSize: 24, 
-                        fontWeight: "bold", 
-                        color: "#52c41a",
-                        marginTop: 4 
-                      }}>
+                      <div className={styles.moneySavedValue}>
                         ${client.moneySaved}
                       </div>
                     </div>
@@ -265,13 +240,8 @@ export const Clients = () => {
 
               {/* Craving Intensity */}
               <div>
-                <div style={{ 
-                  display: "flex", 
-                  justifyContent: "space-between", 
-                  alignItems: "center",
-                  marginBottom: 8 
-                }}>
-                  <Text strong style={{ fontSize: 14 }}>
+                <div className={styles.cravingHeader}>
+                  <Text strong className={styles.cravingTitle}>
                     Craving Intensity
                   </Text>
                   <Tag color={getCravingColor(client.cravingLevel)}>
@@ -284,12 +254,12 @@ export const Clients = () => {
                   trailColor="#f0f0f0"
                   strokeWidth={8}
                   showInfo={false}
-                  style={{ marginBottom: 8 }}
+                  className={styles.cravingProgress}
                 />
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
-                  <Text type="secondary" style={{ fontSize: 11 }}>Low</Text>
-                  <Text type="secondary" style={{ fontSize: 11 }}>Moderate</Text>
-                  <Text type="secondary" style={{ fontSize: 11 }}>High</Text>
+                <div className={styles.cravingLabels}>
+                  <Text type="secondary" className={styles.cravingLabel}>Low</Text>
+                  <Text type="secondary" className={styles.cravingLabel}>Moderate</Text>
+                  <Text type="secondary" className={styles.cravingLabel}>High</Text>
                 </div>
               </div>
             </Card>
@@ -298,33 +268,27 @@ export const Clients = () => {
       </Row>
 
       {/* Summary Stats */}
-      <Card 
-        style={{ 
-          marginTop: 24, 
-          borderRadius: 16,
-          background: "linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)"
-        }}
-      >
+      <Card className={styles.summaryCard}>
         <Row gutter={24}>
           <Col span={6}>
             <Statistic
               title="Total Clients"
               value={clients.length}
-              valueStyle={{ color: "#0d9488", fontSize: 28 }}
+              className={styles.totalClientsStatistic}
             />
           </Col>
           <Col span={6}>
             <Statistic
               title="Premium Clients"
               value={clients.filter(c => c.status === "Premium").length}
-              valueStyle={{ color: "#722ed1", fontSize: 28 }}
+              className={styles.premiumClientsStatistic}
             />
           </Col>
           <Col span={6}>
             <Statistic
               title="High Craving Clients"
               value={clients.filter(c => c.cravingLevel === "High").length}
-              valueStyle={{ color: "#ff4d4f", fontSize: 28 }}
+              className={styles.highCravingClientsStatistic}
             />
           </Col>
           <Col span={6}>
@@ -332,7 +296,7 @@ export const Clients = () => {
               title="Total Money Saved"
               value={clients.reduce((sum, c) => sum + c.moneySaved, 0)}
               prefix="$"
-              valueStyle={{ color: "#52c41a", fontSize: 28 }}
+              className={styles.moneySavedStatistic}
             />
           </Col>
         </Row>
@@ -340,3 +304,4 @@ export const Clients = () => {
     </>
   );
 };
+export default Clients;

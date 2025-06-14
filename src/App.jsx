@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ConfigProvider } from "antd";
 import { Layout } from "./components/Layout";
 import { Overview } from "./screens/Overview/Overview";
-import { Appointments } from "./screens/Appointments";
-import { Clients } from "./screens/Clients";
+import { Appointments } from "./screens/Appointments/Appointment";
+import { Clients } from "./screens/Clients/Client";
 import { Reports } from "./screens/Reports/Report"
 
 const theme = {

@@ -19,6 +19,7 @@ import {
   ClockCircleOutlined,
   UserOutlined,
 } from "@ant-design/icons";
+import styles from "./Appointment.module.css";
 
 const { Title, Text } = Typography;
 
@@ -104,7 +105,7 @@ export const Appointments = () => {
 
   return (
     <>
-      <Title level={2} style={{ marginBottom: 24 }}>
+      <Title level={2} className={styles.pageTitle}>
         Appointments Management
       </Title>
 
@@ -113,7 +114,7 @@ export const Appointments = () => {
           {/* Today's Schedule */}
           <Card 
             title="Today's Schedule" 
-            style={{ marginBottom: 24, borderRadius: 12 }}
+            className={styles.scheduleCard}
             extra={
               <Space>
                 <CalendarOutlined />
@@ -125,17 +126,10 @@ export const Appointments = () => {
               dataSource={todayAppointments}
               renderItem={(appointment) => (
                 <List.Item
-                  style={{
-                    padding: "16px 0",
-                    borderRadius: 8,
-                  }}
+                  className={styles.listItem}
                 >
                   <Card
-                    style={{ 
-                      width: "100%", 
-                      borderRadius: 8,
-                      backgroundColor: "#fafafa"
-                    }}
+                    className={styles.appointmentCard}
                     bodyStyle={{ padding: 16 }}
                   >
                     <Row justify="space-between" align="middle">
@@ -145,23 +139,23 @@ export const Appointments = () => {
                             {appointment.name.split(" ").map(n => n[0]).join("")}
                           </Avatar>
                           <div>
-                            <Title level={5} style={{ margin: 0, marginBottom: 4 }}>
+                            <Title level={5} className={styles.appointmentName}>
                               {appointment.name}
                             </Title>
                             <Space size={16}>
                               <Space size={4}>
-                                <ClockCircleOutlined style={{ color: "#666" }} />
+                                <ClockCircleOutlined className={styles.icon} />
                                 <Text type="secondary">
                                   {appointment.time} ({appointment.duration})
                                 </Text>
                               </Space>
                               <Space size={4}>
-                                <VideoCameraOutlined style={{ color: "#666" }} />
+                                <VideoCameraOutlined className={styles.icon} />
                                 <Text type="secondary">{appointment.type}</Text>
                               </Space>
                             </Space>
                             {appointment.notes && (
-                              <Text type="secondary" style={{ fontSize: 12, display: "block", marginTop: 4 }}>
+                              <Text type="secondary" className={styles.appointmentNotes}>
                                 {appointment.notes}
                               </Text>
                             )}
@@ -179,14 +173,14 @@ export const Appointments = () => {
                                 type="primary" 
                                 size="small"
                                 icon={<VideoCameraOutlined />}
-                                style={{ borderRadius: 6 }}
+                                className={styles.actionButton}
                               >
                                 Join Meeting
                               </Button>
                               <Button 
                                 type="default" 
                                 size="small"
-                                style={{ borderRadius: 6 }}
+                                className={styles.actionButton}
                               >
                                 Reschedule
                               </Button>
@@ -204,9 +198,9 @@ export const Appointments = () => {
           {/* All Appointments */}
           <Card 
             title="All Appointments" 
-            style={{ borderRadius: 12 }}
+            className={styles.allAppointmentsCard}
             extra={
-              <Button type="primary" style={{ borderRadius: 6 }}>
+              <Button type="primary" className={styles.scheduleNewButton}>
                 Schedule New
               </Button>
             }
@@ -215,9 +209,7 @@ export const Appointments = () => {
               dataSource={appointments}
               renderItem={(appointment) => (
                 <List.Item
-                  style={{
-                    padding: "12px 0",
-                  }}
+                  className={styles.appointmentListItem}
                 >
                   <Row style={{ width: "100%" }} justify="space-between" align="middle">
                     <Col span={12}>
@@ -228,7 +220,7 @@ export const Appointments = () => {
                         <div>
                           <Text strong>{appointment.name}</Text>
                           <br />
-                          <Text type="secondary" style={{ fontSize: 12 }}>
+                          <Text type="secondary" className={styles.appointmentDetails}>
                             {appointment.date} at {appointment.time}
                           </Text>
                         </div>
@@ -258,7 +250,7 @@ export const Appointments = () => {
           {/* Calendar */}
           <Card 
             title="Calendar" 
-            style={{ marginBottom: 24, borderRadius: 12 }}
+            className={styles.calendarCard}
           >
             <Calendar
               fullscreen={false}
@@ -273,7 +265,7 @@ export const Appointments = () => {
                         key={apt.id}
                         status={apt.status === "upcoming" ? "processing" : "default"}
                         text=""
-                        style={{ display: "block", fontSize: 8 }}
+                        className={styles.calendarBadge}
                       />
                     ))}
                   </div>
@@ -285,31 +277,31 @@ export const Appointments = () => {
           {/* Quick Stats */}
           <Card 
             title="Quick Stats" 
-            style={{ borderRadius: 12 }}
+            className={styles.statsCard}
           >
             <Space direction="vertical" size={16} style={{ width: "100%" }}>
               <Row justify="space-between">
                 <Text type="secondary">Today's Sessions</Text>
-                <Text strong style={{ color: "#1890ff" }}>
+                <Text strong className={styles.todaySessions}>
                   {todayAppointments.length}/5
                 </Text>
               </Row>
               <Divider style={{ margin: 0 }} />
               <Row justify="space-between">
                 <Text type="secondary">This Week</Text>
-                <Text strong style={{ color: "#52c41a" }}>12</Text>
+                <Text strong className={styles.weekSessions}>12</Text>
               </Row>
               <Divider style={{ margin: 0 }} />
               <Row justify="space-between">
                 <Text type="secondary">Upcoming</Text>
-                <Text strong style={{ color: "#faad14" }}>
+                <Text strong className={styles.upcomingSessions}>
                   {upcomingAppointments.length}
                 </Text>
               </Row>
               <Divider style={{ margin: 0 }} />
               <Row justify="space-between">
                 <Text type="secondary">Completion Rate</Text>
-                <Text strong style={{ color: "#0d9488" }}>94%</Text>
+                <Text strong className={styles.completionRate}>94%</Text>
               </Row>
             </Space>
           </Card>

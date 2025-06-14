@@ -1,10 +1,12 @@
 /* Page Layout */
 .pageTitle {
   margin-bottom: 24px;
+  padding: 0 24px;
 }
-
+/* Search and Filter */
 .searchFilterRow {
   margin-bottom: 24px;
+  padding: 0 24px;
 }
 
 .searchInput {
@@ -24,6 +26,7 @@
 
 .clientHeader {
   margin-bottom: 20px;
+  padding: 24px 24px 8px 24px;
 }
 
 .clientName {

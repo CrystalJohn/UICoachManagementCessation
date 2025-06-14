@@ -138,6 +138,40 @@ export const Clients = () => {
           </Select>
         </Col>
       </Row>
+      {/* Summary Stats */}
+      <Card className={styles.summaryCard}>
+        <Row gutter={24}>
+          <Col span={6}>
+            <Statistic
+              title="Total Clients"
+              value={clients.length}
+              className={styles.totalClientsStatistic}
+            />
+          </Col>
+          <Col span={6}>
+            <Statistic
+              title="Premium Clients"
+              value={clients.filter(c => c.status === "Premium").length}
+              className={styles.premiumClientsStatistic}
+            />
+          </Col>
+          <Col span={6}>
+            <Statistic
+              title="High Craving Clients"
+              value={clients.filter(c => c.cravingLevel === "High").length}
+              className={styles.highCravingClientsStatistic}
+            />
+          </Col>
+          <Col span={6}>
+            <Statistic
+              title="Total Money Saved"
+              value={clients.reduce((sum, c) => sum + c.moneySaved, 0)}
+              prefix="$"
+              className={styles.moneySavedStatistic}
+            />
+          </Col>
+        </Row>
+      </Card>
 
       {/* Client Cards Grid */}
       <Row gutter={[24, 24]}>
@@ -266,41 +300,6 @@ export const Clients = () => {
           </Col>
         ))}
       </Row>
-
-      {/* Summary Stats */}
-      <Card className={styles.summaryCard}>
-        <Row gutter={24}>
-          <Col span={6}>
-            <Statistic
-              title="Total Clients"
-              value={clients.length}
-              className={styles.totalClientsStatistic}
-            />
-          </Col>
-          <Col span={6}>
-            <Statistic
-              title="Premium Clients"
-              value={clients.filter(c => c.status === "Premium").length}
-              className={styles.premiumClientsStatistic}
-            />
-          </Col>
-          <Col span={6}>
-            <Statistic
-              title="High Craving Clients"
-              value={clients.filter(c => c.cravingLevel === "High").length}
-              className={styles.highCravingClientsStatistic}
-            />
-          </Col>
-          <Col span={6}>
-            <Statistic
-              title="Total Money Saved"
-              value={clients.reduce((sum, c) => sum + c.moneySaved, 0)}
-              prefix="$"
-              className={styles.moneySavedStatistic}
-            />
-          </Col>
-        </Row>
-      </Card>
     </>
   );
 };

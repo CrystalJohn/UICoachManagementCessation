@@ -1,5 +1,6 @@
 import styles from './Overview.module.css';
 import React from "react";
+import { useNavigate } from 'react-router-dom';
 import {
   Card,
   Avatar,
@@ -20,6 +21,8 @@ import {
 const { Title, Text, Paragraph } = Typography;
 
 export const Overview = () => {
+  // Hook for navigation
+  const navigate = useNavigate();
   // Data for appointments
   const appointments = [
     {
@@ -72,6 +75,13 @@ export const Overview = () => {
       avatar: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
     },
   ];
+  // Function to handle navigation to consultation requests
+  const handleConsultationCardClick = () => {
+    navigate("/appointments");
+  }
+  const handleViewAllClientsClick = () => {
+    navigate("/clients");
+  }
 
   return (
     <>
@@ -82,8 +92,11 @@ export const Overview = () => {
           border: "none",
           marginBottom: 24,
           borderRadius: 16,
+          cursor: "pointer",
         }}
         bodyStyle={{ padding: 32 }}
+        onClick={handleConsultationCardClick}
+        hoverable
       >
         <Title level={2} style={{ color: "#fff", marginBottom: 16 }}>
           Pending Consultation Requests
@@ -185,6 +198,8 @@ export const Overview = () => {
             }
             style={{ marginBottom: 24, borderRadius: 12 }}
             bodyStyle={{ backgroundColor: "#fafafa" }}
+            onClick={handleViewAllClientsClick}
+            hoverable  // Add hover effect
           >
             <Space direction="vertical" size={12} style={{ width: "100%" }}>
               {clientsNeedingAttention.map((client) => (

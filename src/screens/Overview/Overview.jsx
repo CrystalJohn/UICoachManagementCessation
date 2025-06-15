@@ -14,16 +14,23 @@ import {
 } from "antd";
 import {
   CalendarOutlined,
-  VideoCameraOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
+import { scheduleData } from "../../data/scheduleData"; // Import scheduleData
+import googleMeetLogo from '../../assets/image-1-2.png'; // 1. Import ảnh
 
 const { Title, Text, Paragraph } = Typography;
 
 export const Overview = () => {
   // Hook for navigation
   const navigate = useNavigate();
-  // Data for appointments
+
+  // Calculate total booked slots from scheduleData
+  const totalBookedSlots = scheduleData.reduce((total, day) => {
+    return total + day.timeSlots.filter(slot => !slot.isAvailable).length;
+  }, 0);
+
+  // Data for appointments (can be removed if not used elsewhere or derived from scheduleData)
   const appointments = [
     {
       id: 1,
@@ -64,17 +71,9 @@ export const Overview = () => {
     },
   ];
 
-  // Data for upcoming appointments
-  const upcomingAppointments = [
-    {
-      id: 1,
-      name: "Sophia Rodriguez",
-      time: "11:30 AM",
-      type: "Video Session",
-      day: "Tomorrow",
-      avatar: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
-    },
-  ];
+  // Data for upcoming appointments (can be removed or derived from scheduleData)
+  // const upcomingAppointments = [ ... ]; 
+
   // Function to handle navigation to consultation requests
   const handleConsultationCardClick = () => {
     navigate("/appointments");
@@ -83,10 +82,17 @@ export const Overview = () => {
     navigate("/clients");
   }
 
+  // Function to handle navigation for the upcoming appointments card
+  const handleUpcomingAppointmentsCardClick = () => {
+    navigate("/appointments"); // Navigate to the 'Manage Appointments' page
+  };
+
   return (
     <>
-      {/* Pending Consultation Requests */}
+      {/* Pending Consultation Requests - This is the card to be updated */}
+      {/* Renaming to DashboardUpcomingAppointmentsCard for clarity based on request */}
       <Card
+        className={styles.dashboardUpcomingAppointmentsCard} // Added a class for specific styling if needed
         style={{
           background: "linear-gradient(135deg, #0d9488 0%, #0f766e 100%)",
           border: "none",
@@ -95,17 +101,17 @@ export const Overview = () => {
           cursor: "pointer",
         }}
         bodyStyle={{ padding: 32 }}
-        onClick={handleConsultationCardClick}
+        onClick={handleUpcomingAppointmentsCardClick} // Updated onClick handler
         hoverable
       >
         <Title level={2} style={{ color: "#fff", marginBottom: 16 }}>
-          Pending Consultation Requests
+          Upcoming Appointments / Booked Slots
         </Title>
         <Title level={1} style={{ color: "#fff", fontSize: 48, margin: "16px 0" }}>
-          3
+          {totalBookedSlots} {/* Display dynamically calculated booked slots */}
         </Title>
         <Paragraph style={{ color: "#fff", fontSize: 18, margin: 0 }}>
-          Click to view and manage requests →
+          Click to manage appointments →
         </Paragraph>
       </Card>
 
@@ -173,12 +179,18 @@ export const Overview = () => {
                     />
                   </div>
                   <div style={{ marginTop: 16, textAlign: "right" }}>
+                    {/* Button to join Google Meet */}
                     <Button
-                      type="default"
-                      icon={<VideoCameraOutlined />}
-                      style={{ borderRadius: 8 }}
+                      type="default" // Bạn có thể giữ type="default" hoặc bỏ đi nếu style ghi đè hoàn toàn
+                      icon={<img src={googleMeetLogo} alt="Join Meet" style={{ width: 20, height: 20, marginRight: 8 }} />}
+                      style={{
+                        borderRadius: 8,
+                        backgroundColor: '#0d9488', // Thêm màu nền xanh (đây là màu primary của bạn)
+                        color: '#fff', // Đổi màu chữ thành trắng để dễ đọc
+                        borderColor: '#0d9488', // Tùy chọn: đổi màu viền cho nhất quán
+                      }}
                     >
-                      Join Google Meet
+                      <b>Join Google Meet</b>
                     </Button>
                   </div>
                 </Card>
@@ -231,7 +243,9 @@ export const Overview = () => {
             </div>
           </Card>
 
-          {/* Upcoming Appointments */}
+          {/* Upcoming Appointments List (can be removed or updated based on new card) */}
+          {/* This section might be redundant now that the main card shows total booked slots */}
+          {/* Consider removing or repurposing this smaller upcoming appointments list */}
           <Card
             title={
               <div
@@ -253,35 +267,8 @@ export const Overview = () => {
             style={{ borderRadius: 12 }}
             bodyStyle={{ backgroundColor: "#fafafa" }}
           >
-            {upcomingAppointments.map((appointment) => (
-              <Card
-                key={appointment.id}
-                size="small"
-                style={{
-                  backgroundColor: "#fff",
-                  border: "1px solid #d9d9d9",
-                  borderRadius: 8,
-                }}
-              >
-                <Space size={12}>
-                  <Avatar size={32} src={appointment.avatar}>
-                    {appointment.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
-                  </Avatar>
-                  <div>
-                    <Text strong style={{ fontSize: 12 }}>
-                      {appointment.name}
-                    </Text>
-                    <br />
-                    <Text type="secondary" style={{ fontSize: 11 }}>
-                      {appointment.time} - {appointment.type}
-                    </Text>
-                  </div>
-                </Space>
-              </Card>
-            ))}
+            {/* Dynamically generate this list from scheduleData if needed */}
+            {/* Example: scheduleData[0]?.timeSlots.filter(slot => !slot.isAvailable).map(...) */}
           </Card>
         </Col>
       </Row>

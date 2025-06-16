@@ -6,6 +6,7 @@ import { Overview } from "./screens/Overview/Overview";
 import { Appointment } from "./screens/Appointments/Appointment";
 import { Clients } from "./screens/Clients/Client";
 import { Reports } from "./screens/Reports/Report"
+import { ClientDetails } from "./screens/Clients/ClientDetails";
 
 const theme = {
   token: {
@@ -39,6 +40,7 @@ export const App = () => {
           <Route path="/overview" element={<LayoutWrapper><Overview /></LayoutWrapper>} />
           <Route path="/appointments" element={<LayoutWrapper><Appointment /></LayoutWrapper>} />
           <Route path="/clients" element={<LayoutWrapper><Clients /></LayoutWrapper>} />
+          <Route path="/clients/:id" element={<LayoutWrapper><ClientDetails /></LayoutWrapper>} />
           <Route path="/reports" element={<LayoutWrapper><Reports /></LayoutWrapper>} />
         </Routes>
       </Router>

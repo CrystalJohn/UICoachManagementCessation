@@ -90,8 +90,7 @@ export const Overview = () => {
   return (
     <>
       {/* Pending Consultation Requests - This is the card to be updated */}
-      {/* Renaming to DashboardUpcomingAppointmentsCard for clarity based on request */}
-      <Card
+      {/* Renaming to DashboardUpcomingAppointmentsCard for clarity based on request */}      <Card
         className={styles.dashboardUpcomingAppointmentsCard} // Added a class for specific styling if needed
         style={{
           background: "linear-gradient(135deg, #0d9488 0%, #0f766e 100%)",
@@ -100,7 +99,7 @@ export const Overview = () => {
           borderRadius: 16,
           cursor: "pointer",
         }}
-        bodyStyle={{ padding: 32 }}
+        styles={{ body: { padding: 32 } }}
         onClick={handleUpcomingAppointmentsCardClick} // Updated onClick handler
         hoverable
       >
@@ -118,31 +117,31 @@ export const Overview = () => {
       <Row gutter={24}>
         <Col span={16}>
           {/* Today's Appointments Section */}
-          <div style={{ marginBottom: 24 }}>
-            <div
+          <div style={{ marginBottom: 24 }}>            <div
               style={{
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
-                marginBottom: 16,
+                marginBottom: 24,
               }}
             >
-              <Title level={3}>Today's Appointments</Title>
-              <Card size="small" style={{ borderRadius: 12 }}>
+              <Title level={2}>Today's Appointments</Title>
+              <Card size="small" style={{ borderRadius: 12, padding: "8px 12px" }}>
                 <Statistic
                   title="Today's Sessions"
                   value="3/5"
-                  valueStyle={{ color: "#1890ff", fontSize: 20 }}
+                  valueStyle={{ color: "#1890ff", fontSize: 24 }}
+                  titleStyle={{ fontSize: 16 }}
                 />
               </Card>
             </div>
 
             {/* Appointment Cards */}
-            <Space direction="vertical" size={16} style={{ width: "100%" }}>
-              {appointments.map((appointment) => (
-                <Card
+            <Space direction="vertical" size={20} style={{ width: "100%" }}>
+              {appointments.map((appointment) => (                <Card
                   key={appointment.id}
-                  style={{ borderRadius: 12, backgroundColor: "#fafafa" }}
+                  style={{ borderRadius: 12, backgroundColor: "#fafafa", padding: "8px" }}
+                  bodyStyle={{ padding: "20px" }}
                 >
                   <div
                     style={{
@@ -151,21 +150,21 @@ export const Overview = () => {
                       alignItems: "flex-start",
                     }}
                   >
-                    <Space size={16}>
-                      <Avatar size={52} src={appointment.avatar}>
+                    <Space size={20}>
+                      <Avatar size={64} src={appointment.avatar}>
                         {appointment.name
                           .split(" ")
                           .map((n) => n[0])
                           .join("")}
                       </Avatar>
                       <div>
-                        <Text strong style={{ fontSize: 16 }}>
+                        <Text strong style={{ fontSize: 18 }}>
                           {appointment.name}
                         </Text>
-                        <div style={{ marginTop: 8 }}>
-                          <Space size={8}>
-                            <CalendarOutlined style={{ color: "#666" }} />
-                            <Text type="secondary" style={{ fontSize: 12 }}>
+                        <div style={{ marginTop: 10 }}>
+                          <Space size={10}>
+                            <CalendarOutlined style={{ color: "#666", fontSize: 16 }} />
+                            <Text type="secondary" style={{ fontSize: 14 }}>
                               {appointment.time} - {appointment.type}
                             </Text>
                           </Space>
@@ -175,19 +174,28 @@ export const Overview = () => {
                     <Badge
                       color="blue"
                       text="Upcoming"
-                      style={{ backgroundColor: "#e6f7ff", color: "#1890ff" }}
+                      style={{ 
+                        backgroundColor: "#e6f7ff", 
+                        color: "#1890ff", 
+                        fontSize: 14,
+                        padding: "4px 12px",
+                        borderRadius: "12px"
+                      }}
                     />
                   </div>
-                  <div style={{ marginTop: 16, textAlign: "right" }}>
+                  <div style={{ marginTop: 20, textAlign: "right" }}>
                     {/* Button to join Google Meet */}
                     <Button
-                      type="default" // Bạn có thể giữ type="default" hoặc bỏ đi nếu style ghi đè hoàn toàn
-                      icon={<img src={googleMeetLogo} alt="Join Meet" style={{ width: 20, height: 20, marginRight: 8 }} />}
+                      type="default"
+                      icon={<img src={googleMeetLogo} alt="Join Meet" style={{ width: 22, height: 22, marginRight: 8 }} />}
                       style={{
                         borderRadius: 8,
-                        backgroundColor: '#0d9488', // Thêm màu nền xanh (đây là màu primary của bạn)
-                        color: '#fff', // Đổi màu chữ thành trắng để dễ đọc
-                        borderColor: '#0d9488', // Tùy chọn: đổi màu viền cho nhất quán
+                        backgroundColor: '#0d9488',
+                        color: '#fff',
+                        borderColor: '#0d9488',
+                        height: "40px",
+                        padding: "0 20px",
+                        fontSize: "15px"
                       }}
                     >
                       <b>Join Google Meet</b>
@@ -200,8 +208,7 @@ export const Overview = () => {
         </Col>
 
         <Col span={8}>
-          {/* Clients Needing Attention */}
-          <Card
+          {/* Clients Needing Attention */}          <Card
             title={
               <Space>
                 <ExclamationCircleOutlined />
@@ -209,7 +216,7 @@ export const Overview = () => {
               </Space>
             }
             style={{ marginBottom: 24, borderRadius: 12 }}
-            bodyStyle={{ backgroundColor: "#fafafa" }}
+            styles={{ body: { backgroundColor: "#fafafa" } }}
             onClick={handleViewAllClientsClick}
             hoverable  // Add hover effect
           >
@@ -245,8 +252,7 @@ export const Overview = () => {
 
           {/* Upcoming Appointments List (can be removed or updated based on new card) */}
           {/* This section might be redundant now that the main card shows total booked slots */}
-          {/* Consider removing or repurposing this smaller upcoming appointments list */}
-          <Card
+          {/* Consider removing or repurposing this smaller upcoming appointments list */}          <Card
             title={
               <div
                 style={{
@@ -265,7 +271,7 @@ export const Overview = () => {
               </div>
             }
             style={{ borderRadius: 12 }}
-            bodyStyle={{ backgroundColor: "#fafafa" }}
+            styles={{ body: { backgroundColor: "#fafafa" } }}
           >
             {/* Dynamically generate this list from scheduleData if needed */}
             {/* Example: scheduleData[0]?.timeSlots.filter(slot => !slot.isAvailable).map(...) */}

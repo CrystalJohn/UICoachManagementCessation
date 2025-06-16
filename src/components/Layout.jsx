@@ -80,9 +80,6 @@ export const Layout = ({ children }) => {
                 <Text strong>Coach QuitIt</Text>
               </div>
             </Space>
-            <Text type="secondary" style={{ fontSize: 12, paddingLeft: 8 }}>
-              Smoking Cessation Coach
-            </Text>
           </div>
 
           {/* Navigation */}
@@ -151,7 +148,16 @@ export const Layout = ({ children }) => {
           }}
         >
           <Space>
-            <Text type="secondary">Dashboards</Text>
+            <Text 
+              type="secondary" 
+              onClick={() => navigate("/overview")} 
+              style={{ cursor: "pointer", transition: "color 0.3s" }}
+              className="dashboard-link"
+              onMouseOver={(e) => e.currentTarget.style.color = "#0d9488"}
+              onMouseOut={(e) => e.currentTarget.style.color = ""}
+            >
+              Dashboards
+            </Text>
             <Text type="secondary">/</Text>
             <Text strong>{getCurrentPageTitle()}</Text>
           </Space>

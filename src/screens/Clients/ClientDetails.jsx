@@ -133,10 +133,104 @@ const getClientData = (id) => {
           notes: "Weekly check-in. Sophia is doing very well with all aspects of the program."
         },
       ]
+    },    "3": {
+      id: 3,
+      name: "David Chen",
+      email: "david.chen@example.com",
+      avatar: "https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
+      smokeFreedays: 7,
+      moneySaved: 105,
+      cravingIntensity: 3,
+      status: "Basic",
+      joinDate: "2024-01-05",
+      totalConsultations: 4,
+      motivation: "I want to improve my health and set a good example for my family.",
+      goals: "Quit smoking within 2 months, save money for family vacation.",
+      coachNotes: "David shows good progress with low craving intensity. Focus on maintaining motivation and building healthy habits.",progressLog: {
+        "2024-06-10": "smoke-free",
+        "2024-06-11": "smoke-free",
+        "2024-06-12": "smoke-free",
+        "2024-06-13": "smoke-free",
+        "2024-06-14": "smoke-free",
+        "2024-06-15": "smoke-free",
+        "2024-06-16": "smoke-free",
+      },
+      consultationHistory: [
+        {
+          id: 1,
+          date: "2024-06-14",
+          type: "Video Session",
+          notes: "David is making excellent progress. Discussed strategies for maintaining motivation."
+        },
+        {
+          id: 2,
+          date: "2024-06-07",
+          type: "Video Session",
+          notes: "Weekly check-in. David reported low cravings and good progress with habit replacement."
+        },
+      ]
+    },    "4": {
+      id: 4,
+      name: "Emily Johnson",
+      email: "emily.johnson@example.com",
+      avatar: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop",
+      smokeFreedays: 22,
+      moneySaved: 330,
+      cravingIntensity: 6,
+      status: "Premium",
+      joinDate: "2023-12-20",
+      totalConsultations: 9,
+      motivation: "I want to improve my lung health and save money for my future.",
+      goals: "Achieve 30 smoke-free days and maintain long-term cessation.",
+      coachNotes: "Emily has moderate cravings but good determination. Continue with current support plan.",
+      progressLog: {
+        "2024-05-26": "smoke-free",
+        "2024-05-27": "smoke-free",
+        "2024-05-28": "relapse",
+        "2024-05-29": "smoke-free",
+        "2024-05-30": "smoke-free",
+        "2024-05-31": "smoke-free",
+        "2024-06-01": "smoke-free",
+        "2024-06-02": "smoke-free",
+        "2024-06-03": "smoke-free",
+        "2024-06-04": "smoke-free",
+        "2024-06-05": "smoke-free",
+        "2024-06-06": "smoke-free",
+        "2024-06-07": "smoke-free",
+        "2024-06-08": "smoke-free",
+        "2024-06-09": "smoke-free",
+        "2024-06-10": "smoke-free",
+        "2024-06-11": "smoke-free",
+        "2024-06-12": "smoke-free",
+        "2024-06-13": "smoke-free",
+        "2024-06-14": "smoke-free",
+        "2024-06-15": "smoke-free",
+        "2024-06-16": "smoke-free",
+      },
+      consultationHistory: [
+        {
+          id: 1,
+          date: "2024-06-13",
+          type: "Video Session",
+          notes: "Emily discussed challenges with social situations. Provided coping strategies."
+        },
+        {
+          id: 2,
+          date: "2024-06-06",
+          type: "Video Session",
+          notes: "Good progress overall. Addressed concerns about weight gain after quitting."
+        },
+        {
+          id: 3,
+          date: "2024-05-30",
+          type: "Video Session",
+          notes: "Weekly check-in. Emily recovered well from recent relapse."
+        },
+      ]
     }
   };
-  
-  return clients[id] || clients["1"];
+
+  return clients[id];
 };
 
 export const ClientDetails = () => {
@@ -147,11 +241,24 @@ export const ClientDetails = () => {
   const [selectedConsultation, setSelectedConsultation] = useState(null);
   const [coachNotes, setCoachNotes] = useState("");
 
-  const clientData = getClientData(id || "1");
+  const clientData = getClientData(id);
+
+  // Handle case where client is not found
+  if (!clientData) {
+    return (
+      <div style={{ padding: 24, textAlign: 'center' }}>
+        <Title level={2}>Client Not Found</Title>
+        <Paragraph>The client with ID "{id}" could not be found.</Paragraph>
+        <Button type="primary" onClick={() => navigate("/clients")}>
+          Back to Clients List
+        </Button>
+      </div>
+    );
+  }
 
   useEffect(() => {
-    setCoachNotes(clientData.coachNotes);
-  }, [clientData.coachNotes]);
+    setCoachNotes(clientData.coachNotes || "");
+  }, [clientData]);
 
   const handleBackToList = () => {
     navigate("/clients");
@@ -299,14 +406,13 @@ export const ClientDetails = () => {
                     <Text type="secondary" className={styles.cravingTitle}>
                       Current Craving Level
                     </Text>
-                    <div className={styles.cravingProgress}>
-                      <Progress
-                        type="circle"
-                        size={80}
-                        percent={(clientData.cravingIntensity / 10) * 100}
-                        strokeColor={getCravingColor(clientData.cravingIntensity)}
-                        format={() => `${clientData.cravingIntensity}/10`}
-                      />
+                    <div className={styles.cravingProgress}>                        <Progress
+                          type="circle"
+                          size={80}
+                          percent={(clientData.cravingIntensity / 10) * 100}
+                          strokeColor={getCravingColor(clientData.cravingIntensity)}
+                          format={() => `${clientData.cravingIntensity}/10`}
+                        />
                     </div>
                   </div>
                 </Card>

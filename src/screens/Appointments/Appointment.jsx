@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; // Thêm import này
 import {
   Card,
   Button,
@@ -14,9 +15,11 @@ import {
 import styles from "./Appointment.module.css";
 import { scheduleData } from "../../data/scheduleData"; // Import centralized data
 
-const { Title, Text } = Typography;
+const { Title, Text } = Typography; // Typography đã được import
 
 export const Appointment = () => {
+  const navigate = useNavigate(); // Khởi tạo hook navigate
+
   const handleStartConsultation = (clientName, time) => {
     console.log(`Starting consultation with ${clientName} at ${time}`);
     // Add actual logic here, e.g., navigate to a consultation page or open a modal
@@ -28,7 +31,7 @@ export const Appointment = () => {
     return (
       <Card
         className={isAvailable ? styles.slotAvailableCard : styles.slotBookedCard}
-        bodyStyle={{ padding: 0 }} // Padding will be handled by slotCardContent
+        styles={{ body: { padding: 0 } }} // Updated from bodyStyle to styles.body
       >
         <div className={styles.slotCardContent}>
           <Title level={4} className={styles.slotTimeText}>
@@ -46,7 +49,18 @@ export const Appointment = () => {
             <>
               <CheckCircleOutlined className={styles.slotIconBooked} />
               <Text className={styles.slotStatusBooked}>
-                {slot.statusText}
+                Booked by{' '}
+                {slot.clientId && slot.clientName ? (
+                  <Typography.Link 
+                    onClick={() => navigate(`/clients/${slot.clientId}`)}
+                    className={styles.clientNameLink}
+                  >
+                    {slot.clientName}
+                  </Typography.Link>
+                ) : (
+                  // Fallback if clientId or clientName is missing for some reason
+                  slot.clientName || 'Unknown Client'
+                )}
               </Text>
               <Button
                 type="primary"

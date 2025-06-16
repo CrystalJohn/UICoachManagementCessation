@@ -14,18 +14,17 @@ export const scheduleData = [
         time: "10:00",
         isAvailable: true,
         statusText: "Available slot",
-      },
-      {
+      },      {
         time: "11:00",
         isAvailable: false,
-        statusText: "Booked by Eleanor Vance",
-        clientName: "Eleanor Vance",
+        clientName: "Matthew Paul",
+        clientId: "1", // ID khớp với trang Clients
       },
       {
         time: "14:00",
         isAvailable: false,
-        statusText: "Booked by Marcus Holloway",
-        clientName: "Marcus Holloway",
+        clientName: "Sophia Rodriguez",
+        clientId: "2", // ID khớp với trang Clients
       },
     ],
   },
@@ -33,12 +32,11 @@ export const scheduleData = [
     date: "Wednesday, June 17, 2025",
     bookedSlots: 1,
     totalSlots: 4,
-    timeSlots: [
-      {
+    timeSlots: [      {
         time: "09:00",
         isAvailable: false,
-        statusText: "Booked by Liam Wilson",
-        clientName: "Liam Wilson",
+        clientName: "David Chen",
+        clientId: "3", // ID khớp với trang Clients
       },
       {
         time: "10:00",
@@ -56,10 +54,9 @@ export const scheduleData = [
         statusText: "Available slot",
       },
     ],
-  },
-  {
+  },  {
     date: "Thursday, June 18, 2025",
-    bookedSlots: 0,
+    bookedSlots: 1,
     totalSlots: 4,
     timeSlots: [
       {
@@ -69,8 +66,9 @@ export const scheduleData = [
       },
       {
         time: "10:00",
-        isAvailable: true,
-        statusText: "Available slot",
+        isAvailable: false,
+        clientName: "Emily Johnson",
+        clientId: "4", // ID khớp với trang Clients
       },
       {
         time: "11:00",

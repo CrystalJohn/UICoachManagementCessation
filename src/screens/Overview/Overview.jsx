@@ -11,6 +11,9 @@ import {
   Row,
   Col,
   Statistic,
+  List,
+  Tag,
+  Empty,
 } from "antd";
 import {
   CalendarOutlined,
@@ -71,8 +74,12 @@ export const Overview = () => {
     },
   ];
 
-  // Data for upcoming appointments (can be removed or derived from scheduleData)
-  // const upcomingAppointments = [ ... ]; 
+  // Data for tomorrow's appointments
+  const tomorrowAppointments = scheduleData[1]?.timeSlots.filter(slot => !slot.isAvailable).map(slot => ({
+    time: slot.time,
+    clientName: slot.clientName, // Assuming clientName is available in slot data
+    type: slot.type,
+  })) || [];
 
   // Function to handle navigation to consultation requests
   const handleConsultationCardClick = () => {
@@ -91,26 +98,56 @@ export const Overview = () => {
     <>
       {/* Pending Consultation Requests - This is the card to be updated */}
       {/* Renaming to DashboardUpcomingAppointmentsCard for clarity based on request */}      <Card
-        className={styles.dashboardUpcomingAppointmentsCard} // Added a class for specific styling if needed
+        className={styles.dashboardUpcomingAppointmentsCard}
         style={{
           background: "linear-gradient(135deg, #0d9488 0%, #0f766e 100%)",
           border: "none",
           marginBottom: 24,
           borderRadius: 16,
           cursor: "pointer",
+          transition: "all 0.3s ease",
         }}
-        styles={{ body: { padding: 32 } }}
-        onClick={handleUpcomingAppointmentsCardClick} // Updated onClick handler
+        styles={{ 
+          body: { padding: 32 },
+          // Thêm hiệu ứng hover
+          root: {
+            '&:hover': {
+              boxShadow: "0 8px 16px rgba(0, 0, 0, 0.1)",
+              transform: "translateY(-3px)"
+            }
+          }
+        }}
+        onClick={handleUpcomingAppointmentsCardClick}
         hoverable
       >
-        <Title level={2} style={{ color: "#fff", marginBottom: 16 }}>
-          Upcoming Appointments / Booked Slots
-        </Title>
-        <Title level={1} style={{ color: "#fff", fontSize: 48, margin: "16px 0" }}>
-          {totalBookedSlots} {/* Display dynamically calculated booked slots */}
-        </Title>
-        <Paragraph style={{ color: "#fff", fontSize: 18, margin: 0 }}>
-          Click to manage appointments →
+        {/* Thêm icon lịch cho tiêu đề */}
+        <div style={{ display: "flex", alignItems: "center", marginBottom: 8 }}>
+          <CalendarOutlined style={{ fontSize: 24, color: "#fff", marginRight: 12 }} />
+          <Title level={2} style={{ color: "#fff", margin: 0 }}>
+            Upcoming Appointments / Booked Slots
+          </Title>
+        </div>
+        
+        {/* Số lượng với context */}
+        <div style={{ display: "flex", alignItems: "baseline", margin: "16px 0" }}>
+          <Title level={1} style={{ color: "#fff", fontSize: 48, margin: 0 }}>
+            {totalBookedSlots}
+          </Title>
+          <Text style={{ color: "rgba(255, 255, 255, 0.8)", fontSize: 20, marginLeft: 8 }}>
+            slots booked
+          </Text>
+        </div>
+        
+        {/* Call-to-action với độ mờ nhẹ */}
+        <Paragraph style={{ 
+          color: "rgba(255, 255, 255, 0.9)", 
+          fontSize: 18, 
+          margin: 0,
+          display: "flex",
+          alignItems: "center"
+        }}>
+          Click to manage appointments 
+          <span style={{ marginLeft: 4, fontSize: 20 }}>→</span>
         </Paragraph>
       </Card>
 
@@ -250,31 +287,49 @@ export const Overview = () => {
             </div>
           </Card>
 
-          {/* Upcoming Appointments List (can be removed or updated based on new card) */}
-          {/* This section might be redundant now that the main card shows total booked slots */}
-          {/* Consider removing or repurposing this smaller upcoming appointments list */}          <Card
-            title={
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Space>
-                  <CalendarOutlined />
-                  <Text type="secondary" style={{ fontSize: 12 }}>
-                    Tomorrow
-                  </Text>
-                </Space>
-                <Badge color="blue" text="Upcoming" />
-              </div>
-            }
-            style={{ borderRadius: 12 }}
-            styles={{ body: { backgroundColor: "#fafafa" } }}
+          {/* Tomorrow's Appointments Section */}
+          <Card
+            title={<Title level={5}>Tomorrow's Schedule</Title>}
+            className={styles.tomorrowCard}
+            style={{ 
+              height: "51.8%", // chiều cao của thẻ
+              borderRadius: 12 
+            }}
+            bordered={false}
+            bodyStyle={{ padding: "16px" }}
           >
-            {/* Dynamically generate this list from scheduleData if needed */}
-            {/* Example: scheduleData[0]?.timeSlots.filter(slot => !slot.isAvailable).map(...) */}
+            {tomorrowAppointments.length > 0 ? (
+              <>
+                <List
+                  dataSource={tomorrowAppointments}
+                  renderItem={appointment => (
+                    <List.Item style={{ padding: "8px 0", borderBottom: "1px solid #f0f0f0" }}>
+                      <Space align="start">
+                        <Tag color="#0d9488" style={{ marginRight: 8, fontSize: 12 }}>{appointment.time}</Tag>
+                        <div>
+                          <Text strong>{appointment.clientName}</Text>
+                          <div><Text type="secondary">{appointment.type}</Text></div>
+                        </div>
+                      </Space>
+                    </List.Item>
+                  )}
+                />
+                <div style={{ marginTop: 16, textAlign: "center" }}>
+                  <Button type="primary" size="small" onClick={() => navigate("/appointments")}>
+                    View Full Schedule
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <Empty
+                description={
+                  <span>
+                    No appointments scheduled for tomorrow
+                  </span>
+                }
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+              />
+            )}
           </Card>
         </Col>
       </Row>
